@@ -2,6 +2,9 @@ import express from 'express'
 import mongoose from 'mongoose'
 import userRoute from './src/routes/users.route.js'
 import postsRoute from './src/routes/posts.route.js'
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
