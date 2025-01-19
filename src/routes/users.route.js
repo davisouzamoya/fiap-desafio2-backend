@@ -1,6 +1,8 @@
 import express from 'express'
 const router = express.Router();
 import userRoute from '../controllers/usersController.js'
+import ensureAuthenticated from '../middleware/ensureAuthenticated.js';
+
 
 
 router.get("/",ensureAuthenticated, userRoute.listUsers); 
