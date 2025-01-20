@@ -3,7 +3,7 @@ name: Build and Publish Docker Image
 on:
   push:
     branches:
-      - main # Aciona o workflow quando há push para a branch principal
+      - master # Aciona o workflow quando há push para a branch principal
 
 jobs:
   build:
