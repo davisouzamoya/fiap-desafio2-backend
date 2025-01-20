@@ -1,31 +1,31 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import userRoute from "./src/routes/users.route.js"; // Importação correta
-import postsRoute from "./src/routes/posts.route.js"; // Certifique-se de que este arquivo exista
+import userRoute from "./src/routes/users.route.js"; 
+import postsRoute from "./src/routes/posts.route.js"; 
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware para interpretar JSON
+
 app.use(express.json());
 
-// Rotas principais
-app.use("/users", userRoute); 
-app.use("/posts", postsRoute); // Certifique-se de que as rotas de posts estão configuradas corretamente
 
-// Rota básica para verificar o funcionamento da API
+app.use("/users", userRoute); 
+app.use("/posts", postsRoute); 
+
+
 app.get("/", (req, res) => {
   res.send("API está funcionando! Acesse /users ou /posts.");
 });
 
-// Configuração de conexão com o MongoDB
+
 mongoose
   .connect(process.env.MONGO_URI, {
-    useNewUrlParser: true, // Remove aviso relacionado ao uso do parser de URL antigo
-    useUnifiedTopology: true, // Remove aviso relacionado à topologia unificada
+    useNewUrlParser: true, 
+    useUnifiedTopology: true, 
   })
   .then(() => {
     console.log("Conexão com MongoDB estabelecida com sucesso!");
@@ -34,7 +34,7 @@ mongoose
     console.error("Erro ao conectar ao MongoDB:", err.message);
   });
 
-// Exportar o app sem iniciar o servidor (para evitar conflitos nos testes)
+
 export default app;
 
 if (process.env.NODE_ENV !== "test") {
