@@ -1,16 +1,29 @@
 {
+    "name": "techchallenge",
+    "version": "1.0.0",
+    "description": "Entrega da segunda fase",
+    "main": "app.js",
     "scripts": {
-        "start": "nodemon --legacy-watch app.js",
+        "start": "node app.js",
         "dev": "nodemon --legacy-watch app.js",
         "test": "jest"
     },
     "dependencies": {
+        "@nestjs/common": "^11.0.3",
+        "@nestjs/config": "^4.0.0",
+        "@nestjs/core": "^11.0.3",
+        "@nestjs/jwt": "^11.0.0",
+        "@nestjs/passport": "^11.0.4",
+        "@nestjs/platform-express": "^11.0.3",
+        "@nestjs/swagger": "^11.0.2",
         "bcryptjs": "^2.4.3",
         "dotenv": "^16.4.7",
         "express": "^4.21.2",
         "jsonwebtoken": "^9.0.2",
         "mongoose": "^8.9.5",
-        "mysql": "^2.18.1"
+        "mysql": "^2.18.1",
+        "swagger-jsdoc": "^6.2.8",
+        "swagger-ui-express": "^5.0.1"
     },
     "devDependencies": {
         "@babel/core": "^7.26.0",

@@ -1,8 +1,8 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import userRoute from "./src/routes/users.route.js"; // Importação correta
-import postsRoute from "./src/routes/posts.route.js"; // Certifique-se de que este arquivo exista
+import userRoute from "./src/routes/users.route.js";
+import postsRoute from "./src/routes/posts.route.js";
 
 dotenv.config();
 
