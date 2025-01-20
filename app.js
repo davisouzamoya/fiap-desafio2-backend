@@ -37,7 +37,7 @@ mongoose
 // Exportar o app sem iniciar o servidor (para evitar conflitos nos testes)
 export default app;
 
-// Iniciar o servidor apenas se o ambiente não for de teste
+
 if (process.env.NODE_ENV !== "test") {
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
