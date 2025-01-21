@@ -80,13 +80,6 @@ A Blog API é uma aplicação backend desenvolvida em Node.js que fornece endpoi
 - `PUT /api/users/:id`: Atualiza as informações de um usuário específico.
 - `DELETE /api/users/:id`: Remove um usuário específico.
 
-router.get("/", ensureAuthenticated, userRoute.listUsers); 
-router.get("/:id", ensureAuthenticated, userRoute.getUserById); 
-router.put("/change", ensureAuthenticated, userRoute.updateUser); 
-router.post("/register", userRoute.createUser); 
-router.post("/login", userRoute.loginUser); 
-router.delete("/delete/:id", ensureAuthenticated, userRoute.deleteUser);
-
 ### Rotas de Posts
 
 - `GET /api/posts`: Retorna a lista de posts.
@@ -94,9 +87,6 @@ router.delete("/delete/:id", ensureAuthenticated, userRoute.deleteUser);
 - `GET /api/posts/:id`: Retorna os detalhes de um post específico.
 - `PUT /api/posts/:id`: Atualiza as informações de um post específico.
 - `DELETE /api/posts/:id`: Remove um post específico.
-
-
-
 
 Para iniciar a aplicação, é necessário criar um usuário e realizar o login.
 
