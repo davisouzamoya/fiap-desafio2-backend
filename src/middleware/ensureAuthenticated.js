@@ -8,8 +8,6 @@ const ensureAuthenticated = (req, res, next) => {
   }
 
   const token = authHeader
-  
-  
 
   try {
     const decoded = jwt.verify(token, 'f67c2bcbfcfa30fccb36f72dca22a817');

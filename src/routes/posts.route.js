@@ -6,8 +6,8 @@ import ensureAuthenticated from '../middleware/ensureAuthenticated.js';
 router.get('/', ensureAuthenticated, postsRoute.listPosts);
 router.get('/search', ensureAuthenticated, postsRoute.searchPosts);
 router.get('/:id', ensureAuthenticated, postsRoute.getPostById);
-router.post('/', ensureAuthenticated, postsRoute.createPost); // Ajustado para seguir RESTful
-router.put('/:id', ensureAuthenticated, postsRoute.updatePost); // Ajustado para seguir RESTful
-router.delete('/:id', ensureAuthenticated, postsRoute.deletePost); // Ajustado para seguir RESTful
+router.post('/', ensureAuthenticated, postsRoute.createPost); 
+router.put('/:id', ensureAuthenticated, postsRoute.updatePost); 
+router.delete('/:id', ensureAuthenticated, postsRoute.deletePost); 
 
 export default router;

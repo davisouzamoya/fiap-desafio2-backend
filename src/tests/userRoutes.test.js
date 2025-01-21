@@ -1,85 +1,82 @@
 import request from "supertest";
-import mongoose from "mongoose";
+import bcryptjs from 'bcryptjs';
 import app from "../../app.js";
+import User from "../models/user.js"; 
+const { hash } = bcryptjs;
 
-let token; // Token global para ser usado nos testes
+jest.mock("../models/user.js"); 
 
 describe("User Routes", () => {
-  beforeAll(async () => {
-    try {
-      // Limpar a coleção de usuários antes de iniciar os testes
-      const db = mongoose.connection.db;
-      if (db) {
-        await db.collection("users").deleteMany({});
-        console.log("Coleção 'users' limpa.");
-      } else {
-        throw new Error("Conexão com o banco de dados não estabelecida.");
-      }
+  
+  let token = '';
+  
+  const userData = {
+    nome: "Usuario 2 True",
+    email: "daviglf5@example.com",
+    is_teacher: false,
+    password: "123"
+  };
+  
+  //Para realizar a validação deve ser alterado os valores de id e nome com de um usuario criado
+  const updatedUserData = {
+    id: '678c08c9a6e77e44d2bd945d',
+    nome: "Usuario 2 Updated"
+  };
 
-      // Criar um usuário para teste
-      const registerRes = await request(app)
-        .post("/users/register")
-        .send({
-          username: "testuser",
-          password: "testpassword",
-        });
+  //Para realizar a validação deve ser alterado o com um id criado no banco
+  const deleteUserId = '678bf012747f47fe24701cd8';
 
-      if (registerRes.status !== 200) {
-        console.error("Erro ao registrar usuário:", registerRes.body);
-        throw new Error("Erro ao criar usuário de teste.");
-      }
+  it("should create a new user", async () => {
+    User.prototype.save = jest.fn().mockResolvedValue(userData);
+    
+    const response = await request(app)
+      .post("/users/register")
+      .send(userData);
 
-      console.log("Usuário de teste criado com sucesso.");
-
-      // Fazer login para obter o token
-      const loginRes = await request(app)
-        .post("/users/login")
-        .send({
-          username: "testuser",
-          password: "testpassword",
-        });
-
-      if (loginRes.status !== 200) {
-        console.error("Erro no login do usuário:", loginRes.body);
-        throw new Error("Erro ao realizar login.");
-      }
-
-      token = loginRes.body.token;
-      console.log("Token gerado com sucesso:", token);
-    } catch (error) {
-      console.error("Erro no setup do teste:", error.message);
-      throw error;
-    }
+    expect(response.statusCode).toBe(201);
   });
 
-  afterAll(async () => {
-    await mongoose.connection.close();
-    console.log("Conexão com o MongoDB encerrada.");
-  });
+  it("should login an existing user", async () => {
+    const hashedPassword = await hash(userData.password, 10);
+    User.findOne = jest.fn().mockResolvedValue({
+      email: userData.email,
+      password: hashedPassword
+    });
 
-  it("should return all users", async () => {
-    const res = await request(app)
-      .get("/users")
-      .set("Authorization", `Bearer ${token}`); // Passar o token no cabeçalho
-
-    expect(res.statusCode).toEqual(200);
-    expect(res.body).toHaveProperty("users");
-  });
-
-  it("should login user", async () => {
-    const res = await request(app)
+    const response = await request(app)
       .post("/users/login")
       .send({
-        username: "testuser",
-        password: "testpassword",
+        email: userData.email,
+        password: userData.password
       });
 
-    expect(res.statusCode).toEqual(200);
-    expect(res.body).toHaveProperty("token");
+    expect(response.statusCode).toBe(200);
+    token = response.body.token;
   });
+
+  it("should update a user by ID", async () => {
+    User.findByIdAndUpdate = jest.fn().mockResolvedValue(updatedUserData);
+
+    const response = await request(app)
+      .put(`/users/change`)
+      .set("authorization", token)
+      .send(updatedUserData);
+
+    expect(response.statusCode).toBe(200);
+  });
+
+  it("should delete a user by ID", async () => {
+    User.findByIdAndDelete = jest.fn().mockResolvedValue({
+      id: deleteUserId,
+      nome: userData.nome
+    });
+
+    const response = await request(app)
+      .delete(`/users/delete/${deleteUserId}`)
+      .set("authorization", token)
+      .send();
+
+    expect(response.statusCode).toBe(200);
+  });
+
 });
-
-
-
-
-

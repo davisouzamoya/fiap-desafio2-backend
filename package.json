@@ -2,7 +2,8 @@
     "scripts": {
         "start": "nodemon --legacy-watch app.js",
         "dev": "nodemon --legacy-watch app.js",
-        "test": "jest"
+        "test": "jest",
+        "test:coverage": "jest --coverage"
     },
     "dependencies": {
         "bcryptjs": "^2.4.3",
@@ -10,7 +11,9 @@
         "express": "^4.21.2",
         "jsonwebtoken": "^9.0.2",
         "mongoose": "^8.9.5",
-        "mysql": "^2.18.1"
+        "mysql": "^2.18.1",
+        "swagger-jsdoc": "5.0.1",
+        "swagger-ui-express": "^5.0.1"
     },
     "devDependencies": {
         "@babel/core": "^7.26.0",
