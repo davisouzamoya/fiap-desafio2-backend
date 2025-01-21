@@ -72,7 +72,7 @@ const createUser = async (req, res) => {
       is_teacher,
     });
 
-    res.status(201).json({ message: 'Usuário criado com sucesso', novoUsuario });
+    res.status(201).json({ message: 'Usuário criado com sucesso', usuario: novoUsuario });
   } catch (error) {
     res.status(500).json({ message: 'Erro ao criar usuário', error: error.message });
   }
@@ -102,7 +102,6 @@ const loginUser = async (req, res) => {
     }
 
     const existingUser = await user.findOne({ email });
-
     if (!existingUser) {
       return res.status(404).json({ message: 'Usuário não encontrado' });
     }
@@ -118,6 +117,7 @@ const loginUser = async (req, res) => {
       SECRET_KEY,
       { expiresIn: '1d' }
     );
+
 
     res.status(200).json({ message: 'Login realizado com sucesso', token });
   } catch (error) {

@@ -31,6 +31,7 @@ const createPost = async (req, res) => {
     if (!existingUser) {
       return res.status(404).json({ message: 'Usuário não encontrado' });
     }
+
     if (!existingUser.is_teacher) {
       return res.status(403).json({ message: 'Permissão negada: apenas professores podem criar posts' });
     }
@@ -41,8 +42,10 @@ const createPost = async (req, res) => {
       autor,
       userId: existingUser._id,
     });
+    
     res.status(201).json({ message: 'Post criado com sucesso', newPost });
   } catch (error) {
+    
     res.status(500).json({ message: 'Erro ao criar post', error: error.message });
   }
 };
@@ -55,6 +58,7 @@ const updatePost = async (req, res) => {
     if (!existingUser) {
       return res.status(404).json({ message: 'Usuário não encontrado' });
     }
+
     if (!existingUser.is_teacher) {
       return res.status(403).json({ message: 'Permissão negada: apenas professores podem editar posts' });
     }
@@ -81,14 +85,6 @@ const deletePost = async (req, res) => {
     const post = await postsModel.findById(id);
     if (!post) {
       return res.status(404).json({ message: 'Post não encontrado' });
-    }
-
-    const existingUser = await user.findById(post.userId);
-    if (!existingUser) {
-      return res.status(404).json({ message: 'Usuário não encontrado' });
-    }
-    if (!existingUser.is_teacher) {
-      return res.status(403).json({ message: 'Permissão negada: apenas professores podem excluir posts' });
     }
 
     await postsModel.findByIdAndDelete(id);
